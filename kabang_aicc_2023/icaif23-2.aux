@@ -1,0 +1,132 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\bibstyle{ACM-Reference-Format}
+\citation{brown2020gpt3,ouyang2022training}
+\citation{white2023prompt}
+\citation{eloundou2023gpts,peng2023check}
+\citation{li2023chatdoctor}
+\citation{lialin2023scaling}
+\citation{Ayling2022}
+\citation{ding2023,liu2023goat}
+\@writefile{toc}{\contentsline {section}{Abstract}{1}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{brown2020gpt3}
+\citation{chowdhery2022palm}
+\citation{zhang2022opt}
+\citation{gliwa2019samsum,zhong2021qmsum}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Example of KakaoBank's CS datasets: A) dialogue between CS representative (U1) and customer (U2), B) dialogue summarization by a human. }}{2}{figure.caption.5}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig_dialogue}{{1}{2}{Example of KakaoBank's CS datasets: A) dialogue between CS representative (U1) and customer (U2), B) dialogue summarization by a human}{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Example of instruct datasets: A) KoAlpaca instruct datasets that are Korean translations of instruct datasets of Alpaca (D1), B) Instruct datasets with inputs as utterances only from CS representatives (finds U1 sentences in Fig.\nonbreakingspace \ref {fig_dialogue}A) and outputs as dialogue summarization (D2), C) Instruct datasets with inputs as whole dialogue (finds U1 and U2 sentences in Fig.\nonbreakingspace \ref {fig_dialogue}A) between CS representatives and customer and outputs as dialogue summarization (D3). }}{2}{figure.caption.6}\protected@file@percent }
+\newlabel{fig_dataset}{{2}{2}{Example of instruct datasets: A) KoAlpaca instruct datasets that are Korean translations of instruct datasets of Alpaca (D1), B) Instruct datasets with inputs as utterances only from CS representatives (finds U1 sentences in Fig.~\ref {fig_dialogue}A) and outputs as dialogue summarization (D2), C) Instruct datasets with inputs as whole dialogue (finds U1 and U2 sentences in Fig.~\ref {fig_dialogue}A) between CS representatives and customer and outputs as dialogue summarization (D3)}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Works}{2}{section.2}\protected@file@percent }
+\newlabel{related_work}{{2}{2}{Related Works}{section.2}{}}
+\citation{syverson:2011}
+\citation{brynjolfsson2023generative}
+\citation{brynjolfsson2023generative}
+\citation{ouyang2022training}
+\citation{peng2023instruction,wang2023selfinstruct}
+\citation{liu2023goat}
+\citation{liu2023goat}
+\citation{wei2022finetuned}
+\citation{araci2019finbert}
+\citation{gudibande2023false}
+\citation{maynez-etal-2020-faithfulness,ladhak-etal-2022-faithful,huang2023}
+\citation{Prodan2022}
+\citation{Chen_Shuai_2021}
+\citation{park-etal-2022-leveraging}
+\citation{polyglot-ko:2022,polyglot-ko2023note}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}AI-powered CS center}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Fine-tuning}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Conversation summarization}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{3}{section.3}\protected@file@percent }
+\newlabel{methodology}{{3}{3}{Methodology}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Baseline model}{3}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Fine-tuning using instruct datasets}{3}{subsection.3.2}\protected@file@percent }
+\citation{lin2004rouge,ganesan2018rouge}
+\citation{lee2020rdass}
+\citation{alpaca}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Number of CS calls in each CS category. }}{4}{figure.caption.7}\protected@file@percent }
+\newlabel{fig_cs_category}{{3}{4}{Number of CS calls in each CS category}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Evaluation Framework}{4}{section.4}\protected@file@percent }
+\newlabel{evaluation_metrics}{{4}{4}{Evaluation Framework}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}ROUGE}{4}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Distributions of the text length in the instruct datasets of KakaoBank's CSC for (A) inputs in D1, (B) inputs in D2, and (C) outputs. }}{4}{figure.caption.8}\protected@file@percent }
+\newlabel{fig_txtlen}{{4}{4}{Distributions of the text length in the instruct datasets of KakaoBank's CSC for (A) inputs in D1, (B) inputs in D2, and (C) outputs}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}RDASS}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{4}{section.5}\protected@file@percent }
+\newlabel{experiments}{{5}{4}{Experiments}{section.5}{}}
+\citation{vanDerMaaten2008}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Summary of model performance experimented through three major fine-tuning models (FTMs): FTM-1 represents fine-tuning Polyglot-Ko (5.8B) using the Koalpaca instruct datasets (see D1 in Fig.\nonbreakingspace \ref {fig_dataset}); FTM-2 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the utterances of CS representatives and summarization (see D2 in Fig.\nonbreakingspace \ref {fig_dataset}); FTM-3 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the comprehensive dialogues and summarization (see D3 in Fig.\nonbreakingspace \ref {fig_dataset}). }}{5}{figure.caption.9}\protected@file@percent }
+\newlabel{fig_metrics}{{5}{5}{Summary of model performance experimented through three major fine-tuning models (FTMs): FTM-1 represents fine-tuning Polyglot-Ko (5.8B) using the Koalpaca instruct datasets (see D1 in Fig.~\ref {fig_dataset}); FTM-2 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the utterances of CS representatives and summarization (see D2 in Fig.~\ref {fig_dataset}); FTM-3 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the comprehensive dialogues and summarization (see D3 in Fig.~\ref {fig_dataset})}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}KoAlpaca dataset}{5}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}KakaoBank's CSC dataset}{5}{subsection.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Similarity measures between the reference and generated summaries. (A) Cosine similarity of the embedding vectors between the reference summaries and the generated summaries. (B) 2D heatmaps of the first component of $t$-SNE between the reference and generated summaries for the fine-tuning model 1 (FTM-1) (top-left), FTM-2 (top-right), and FTM-3 (bottom-left). }}{5}{figure.caption.10}\protected@file@percent }
+\newlabel{fig_similarity}{{6}{5}{Similarity measures between the reference and generated summaries. (A) Cosine similarity of the embedding vectors between the reference summaries and the generated summaries. (B) 2D heatmaps of the first component of $t$-SNE between the reference and generated summaries for the fine-tuning model 1 (FTM-1) (top-left), FTM-2 (top-right), and FTM-3 (bottom-left)}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Fine-tuning training}{5}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Model performance evaluation}{5}{subsection.5.4}\protected@file@percent }
+\citation{wei2022finetuned}
+\citation{lee2021optimizing}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Examples of the reference and generated summaries using fine-tuning models (FTMs). The customer's situation is highlighted in cyan, whereas the primary inquiry is highlighted in orange within the given context.}}{6}{table.caption.11}\protected@file@percent }
+\newlabel{table_examples}{{1}{6}{Examples of the reference and generated summaries using fine-tuning models (FTMs). The customer's situation is highlighted in cyan, whereas the primary inquiry is highlighted in orange within the given context}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Multiple instruction templates}{6}{subsection.5.5}\protected@file@percent }
+\newlabel{sec_multiple_instructions}{{5.5}{6}{Multiple instruction templates}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Experimental Results}{6}{section.6}\protected@file@percent }
+\newlabel{results}{{6}{6}{Experimental Results}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Performance of fine-tuning models}{6}{subsection.6.1}\protected@file@percent }
+\citation{polanyi:1966}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Illustrative inference outcomes of the fine-tuning model using multiple instruction templates. The task instructions and their corresponding outputs are demonstrated for (A) an instance of instruction 1 (Write a detailed summary of the inquiry and the resolution process in the following CS dialogue), (B) instruction 2 (Write a brief summary of the following CS dialogue), and (C) instruction 3 (Write a short summary of the following CS inquiry within 5 words). }}{7}{figure.caption.12}\protected@file@percent }
+\newlabel{fig_var_tasks}{{7}{7}{Illustrative inference outcomes of the fine-tuning model using multiple instruction templates. The task instructions and their corresponding outputs are demonstrated for (A) an instance of instruction 1 (Write a detailed summary of the inquiry and the resolution process in the following CS dialogue), (B) instruction 2 (Write a brief summary of the following CS dialogue), and (C) instruction 3 (Write a short summary of the following CS inquiry within 5 words)}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Similarity measures}{7}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Fine-tuning with multiple instruction templates}{7}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{7}{section.7}\protected@file@percent }
+\newlabel{conclusions}{{7}{7}{Conclusions}{section.7}{}}
+\bibdata{references.bib}
+\bibcite{araci2019finbert}{{1}{2019}{{Araci}}{{}}}
+\bibcite{Ayling2022}{{2}{2022}{{Ayling and Chapman}}{{}}}
+\bibcite{brown2020gpt3}{{3}{2020}{{Brown et~al\mbox  {.}}}{{}}}
+\bibcite{brynjolfsson2023generative}{{4}{2023}{{Brynjolfsson et~al\mbox  {.}}}{{}}}
+\bibcite{Chen_Shuai_2021}{{5}{2021}{{Chen and Shuai}}{{}}}
+\bibcite{chowdhery2022palm}{{6}{2022}{{Chowdhery et~al\mbox  {.}}}{{}}}
+\bibcite{ding2023}{{7}{2023}{{Ding et~al\mbox  {.}}}{{}}}
+\bibcite{eloundou2023gpts}{{8}{2023}{{Eloundou et~al\mbox  {.}}}{{}}}
+\bibcite{ganesan2018rouge}{{9}{2018}{{Ganesan}}{{}}}
+\bibcite{gliwa2019samsum}{{10}{2019}{{Gliwa et~al\mbox  {.}}}{{}}}
+\bibcite{gudibande2023false}{{11}{2023}{{Gudibande et~al\mbox  {.}}}{{}}}
+\bibcite{huang2023}{{12}{2023}{{Huang et~al\mbox  {.}}}{{}}}
+\bibcite{polyglot-ko:2022}{{13}{2022}{{Ko et~al\mbox  {.}}}{{}}}
+\bibcite{polyglot-ko2023note}{{14}{2023}{{Ko et~al\mbox  {.}}}{{}}}
+\bibcite{ladhak-etal-2022-faithful}{{15}{2022}{{Ladhak et~al\mbox  {.}}}{{}}}
+\bibcite{lee2020rdass}{{16}{2020}{{Lee et~al\mbox  {.}}}{{}}}
+\bibcite{lee2021optimizing}{{17}{2021}{{Lee et~al\mbox  {.}}}{{}}}
+\bibcite{li2023chatdoctor}{{18}{2023}{{Li et~al\mbox  {.}}}{{}}}
+\bibcite{lialin2023scaling}{{19}{2023}{{Lialin et~al\mbox  {.}}}{{}}}
+\bibcite{lin2004rouge}{{20}{2004}{{Lin}}{{}}}
+\bibcite{liu2023goat}{{21}{2023}{{Liu and Low}}{{}}}
+\bibcite{maynez-etal-2020-faithfulness}{{22}{2020}{{Maynez et~al\mbox  {.}}}{{}}}
+\bibcite{ouyang2022training}{{23}{2022}{{Ouyang et~al\mbox  {.}}}{{}}}
+\bibcite{park-etal-2022-leveraging}{{24}{2022}{{Park et~al\mbox  {.}}}{{}}}
+\bibcite{peng2023check}{{25}{2023a}{{Peng et~al\mbox  {.}}}{{}}}
+\bibcite{peng2023instruction}{{26}{2023b}{{Peng et~al\mbox  {.}}}{{}}}
+\bibcite{polanyi:1966}{{27}{1966}{{Polanyi}}{{}}}
+\bibcite{Prodan2022}{{28}{2022}{{Prodan and Pelican}}{{}}}
+\bibcite{syverson:2011}{{29}{2011}{{Syverson}}{{}}}
+\bibcite{alpaca}{{30}{2023}{{Taori et~al\mbox  {.}}}{{}}}
+\bibcite{vanDerMaaten2008}{{31}{2008}{{van~der Maaten and Hinton}}{{}}}
+\bibcite{wang2023selfinstruct}{{32}{2023}{{Wang et~al\mbox  {.}}}{{}}}
+\bibcite{wei2022finetuned}{{33}{2022}{{Wei et~al\mbox  {.}}}{{}}}
+\bibcite{white2023prompt}{{34}{2023}{{White et~al\mbox  {.}}}{{}}}
+\bibcite{zhang2022opt}{{35}{2022}{{Zhang et~al\mbox  {.}}}{{}}}
+\@writefile{toc}{\contentsline {section}{References}{8}{section*.14}\protected@file@percent }
+\bibcite{zhong2021qmsum}{{36}{2021}{{Zhong et~al\mbox  {.}}}{{}}}
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{0pt}
+\newlabel{tocindent1}{4.185pt}
+\newlabel{tocindent2}{10.34999pt}
+\newlabel{tocindent3}{0pt}
+\newlabel{tocindent4}{0pt}
+\newlabel{tocindent5}{0pt}
+\newlabel{TotPages}{{9}{9}{}{page.9}{}}
+\gdef \@abspage@last{9}
