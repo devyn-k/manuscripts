@@ -42,7 +42,7 @@
 
 %% NOTE that a single column version may be required for 
 %% submission and peer review. This can be done by changing
-%% the \doucmentclass[...]{acmart} in this template to 
+%% the \documentclass[...]{acmart} in this template to 
 %% \documentclass[manuscript,screen]{acmart}
 %% 
 %% To ensure 100% compatibility, please check the white list of
@@ -142,7 +142,7 @@
 %% used to denote shared contribution to the research.
 
 
-\author{Hyun Woo Kim}
+\author{Hyunwoo Kim}
 \orcid{xxxxxxxx}
 % \authornote{These authors contributed equally to this research}
 \affiliation{%
@@ -154,7 +154,7 @@
 
 
 
-\author{Hyun Myeong Oh}
+\author{Hyunmyoung Oh}
 \orcid{xxxxxxxx}
 % \authornotemark[1]
 \affiliation{%
@@ -279,34 +279,68 @@ Through ICL, LLMs can implicitly learn patterns from a few in-context examples a
 
 
 
-\section{Methodology}\label{methodology}
+\subsection{Dataset Description}
+This study leverages proprietary real-world transaction data provided by Danggeun Pay Inc., a financial technology company that operates the official payment infrastructure for Danggeun Market Inc.—a widely used local community platform in South Korea. The platform supports a variety of services, including secondhand goods trading, real estate listings, part-time job postings, and more. Within this ecosystem, Danggeun Pay facilitates peer-to-peer (P2P) payments, enabling the collection of fine-grained transactional records that are particularly rich in behavioral signals relevant to fraud detection.
+
+The dataset comprises transaction-level records labeled as either fraudulent or normal. Each transaction is augmented with accompanying listing metadata as well as detailed behavioral features extracted from the seller's historical activity. The dataset was curated for the express purpose of facilitating machine learning research on fraud detection in P2P commerce and offers a comprehensive foundation for studying behavioral patterns in online trust-mediated environments.
+
+\subsection{Data Collection and Sampling}
+The dataset includes transactions conducted over a two-month period, from April to May 2025. To ensure balanced model training and fair evaluation across fraud classes, stratified sampling based on ground-truth fraud labels was applied. As shown in Fig.~\ref{fig_dataset}, a total of 1,370 transactions were selected, with a class distribution ratio of approximately 1:2 (fraudulent to legitimate), providing a sufficiently diverse dataset for evaluating fraud detection performance.
+
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/fig1_dataset.png}
+  \caption{Overview of the sampled dataset with fraud label distribution}
+  \label{fig_dataset}
+\end{figure}
+
+\subsection{Category-Wise Distribution}
+The sampled transactions span seven major product categories, each exhibiting distinct fraud risk profiles. Table~\ref{tab_category_distribution} summarizes the distribution of fraudulent and legitimate transactions across these categories.
+
+
+Notably, categories with high liquidity and resale value—such as tickets—exhibit a disproportionately high rate of fraudulent activity. This heterogeneity underscores the importance of incorporating category-specific behavioral patterns into fraud detection models.
+
+\subsection{Feature Overview}
+Each transaction instance in the dataset is represented by a set of features grouped into four key dimensions:
+
+\begin{itemize}
+    \item \textbf{Listing Metadata}: Includes the listing title (\texttt{title}), asking price (\texttt{price}), and product category (\texttt{category}).
+    \item \textbf{Transaction Details}: Captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
+    \item \textbf{Seller Profile}: Includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
+    \item \textbf{Recent Seller Activity}: Summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
+\end{itemize}
+
+These feature groups collectively capture both static attributes and dynamic behavioral cues, facilitating a comprehensive analysis of user behavior for fraud detection.
+
+
+
+\begin{table}[b!]
+  \centering
+  \begin{tabular*}{\columnwidth}{l@{\extracolsep{\fill}}cc}
+  \hline
+  \textbf{Category} & \textbf{Fraudulent} & \textbf{Normal} \\
+  \hline
+  Tickets & 305 & 464 \\
+  Fashion \& Miscellaneous & 25 & 184 \\
+  Baby \& Kids & 78 & 37 \\
+  Electronics & 37 & 84 \\
+  Sports & 12 & 32 \\
+  Others & 13 & 99 \\
+  \hline
+  \end{tabular*}
+  \caption{Category-wise distribution of transactions by fraud label}
+  \label{tab_category_distribution}
+\end{table}
 
 
 \begin{figure*}[t!]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/fig1_process.png}
-  \caption{Experimental procedures. 
-  }
+  \includegraphics[width=0.9\textwidth]{figures/fig2_process.png}
+  \caption{Overview of the proposed framework.}
 \label{fig_process}
 \end{figure*}
 
 
-
-
-this part is not ready yet.
-
-
-\subsection{Baseline model}
-this part is not ready yet.
-
-
-\subsection{Fine-tuning using instruct datasets}
-this part is not ready yet.
-
-
-
-\section{Evaluation Framework}\label{evaluation_metrics}
-this part is not ready yet.
 
 
 % \begin{figure}[t!]
@@ -319,71 +353,7 @@ this part is not ready yet.
 
 
 
-% \begin{figure}[t!]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{figures/fig_txtlen.png}
-%   % \includegraphics{./figures/fig_txtlen.png}
-%   \caption{Distributions of the text length in the instruct datasets of KakaoBank's CSC for (A) inputs in D1, (B) inputs in D2, and (C) outputs.
-%   }
-% \label{fig_txtlen}
-% \end{figure}
 
-
-\subsection{ROUGE} 
-this part is not ready yet.
-
-\subsection{RDASS} 
-this part is not ready yet.
-
-
-
-\section{Experiments}\label{experiments}
-this part is not ready yet.
-
-
-
-
-% \begin{figure}[t!]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{figures/fig_metrics.png}
-%   \caption{Summary of model performance experimented through three major fine-tuning models (FTMs): FTM-1 represents fine-tuning Polyglot-Ko (5.8B) using the Koalpaca instruct datasets (see D1 in Fig.~\ref{fig_dataset}); FTM-2 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the utterances of CS representatives and summarization (see D2 in Fig.~\ref{fig_dataset}); FTM-3 represents fine-tuning Polyglot-Ko (5.8B) using the instruct datasets composed of the comprehensive dialogues and summarization (see D3 in Fig.~\ref{fig_dataset}). 
-%   }
-% \label{fig_metrics}
-% \end{figure}
-
-
-\subsection{KoAlpaca dataset}
-this part is not ready yet.
-
-
-
-
-\subsection{KakaoBank's CSC dataset}
-this part is not ready yet.
-
-
-
-% \begin{figure}[t!]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{figures/fig_similarity.png}
-%   \caption{Similarity measures between the reference and generated summaries. (A) Cosine similarity of the embedding vectors between the reference summaries and the generated summaries. (B) 2D heatmaps of the first component of $t$-SNE between the reference and generated summaries for the fine-tuning model 1 (FTM-1) (top-left), FTM-2 (top-right), and FTM-3 (bottom-left).
-%   }
-% \label{fig_similarity}
-% \end{figure}
-
-
-
-\subsection{Fine-tuning training}
-this part is not ready yet.
-
-
-
-
-\begin{itemize}
-  \item {\bf Instruction 1}: item1
-  \item {\bf Instruction 2}: item2
-  \item {\bf Instruction 3}: item3\\
-\end{itemize}
 
 
 
@@ -409,18 +379,6 @@ this part is not ready yet.
 % \label{fig_var_tasks}
 % \end{figure}
 
-
-
-
-\subsection{Similarity measures}
-this part is not ready yet.
-
-
-
-
-
-\subsection{Fine-tuning with multiple instruction templates}
-this part is not ready yet.
 
 
 
