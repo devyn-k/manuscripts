@@ -279,13 +279,10 @@ Through ICL, LLMs can implicitly learn patterns from a few in-context examples a
 
 
 
-\subsection{Dataset Description}
+\section{Datasets}\label{datasets}
 This study leverages proprietary real-world transaction data provided by Danggeun Pay Inc., a financial technology company that operates the official payment infrastructure for Danggeun Market Inc.—a widely used local community platform in South Korea. The platform supports a variety of services, including secondhand goods trading, real estate listings, part-time job postings, and more. Within this ecosystem, Danggeun Pay facilitates peer-to-peer (P2P) payments, enabling the collection of fine-grained transactional records that are particularly rich in behavioral signals relevant to fraud detection.
 
 The dataset comprises transaction-level records labeled as either fraudulent or normal. Each transaction is augmented with accompanying listing metadata as well as detailed behavioral features extracted from the seller's historical activity. The dataset was curated for the express purpose of facilitating machine learning research on fraud detection in P2P commerce and offers a comprehensive foundation for studying behavioral patterns in online trust-mediated environments.
-
-\subsection{Data Collection and Sampling}
-The dataset includes transactions conducted over a two-month period, from April to May 2025. To ensure balanced model training and fair evaluation across fraud classes, stratified sampling based on ground-truth fraud labels was applied. As shown in Fig.~\ref{fig_dataset}, a total of 1,370 transactions were selected, with a class distribution ratio of approximately 1:2 (fraudulent to legitimate), providing a sufficiently diverse dataset for evaluating fraud detection performance.
 
 \begin{figure}[t!]
   \centering
@@ -294,27 +291,18 @@ The dataset includes transactions conducted over a two-month period, from April 
   \label{fig_dataset}
 \end{figure}
 
+
+\subsection{Data Collection and Sampling}
+The dataset includes transactions conducted over a two-month period, from April to May 2025. To ensure balanced model training and fair evaluation across fraud classes, stratified sampling based on ground-truth fraud labels was applied. As shown in Fig.~\ref{fig_dataset}, a total of 1,370 transactions were selected, with a class distribution ratio of approximately 1:2 (fraudulent to normal transactions), providing a sufficiently diverse dataset for evaluating fraud detection performance.
+
 \subsection{Category-Wise Distribution}
 The sampled transactions span seven major product categories, each exhibiting distinct fraud risk profiles. Table~\ref{tab_category_distribution} summarizes the distribution of fraudulent and legitimate transactions across these categories.
 
-
 Notably, categories with high liquidity and resale value—such as tickets—exhibit a disproportionately high rate of fraudulent activity. This heterogeneity underscores the importance of incorporating category-specific behavioral patterns into fraud detection models.
 
-\subsection{Feature Overview}
-Each transaction instance in the dataset is represented by a set of features grouped into four key dimensions:
-
-\begin{itemize}
-    \item \textbf{Listing Metadata}: Includes the listing title (\texttt{title}), asking price (\texttt{price}), and product category (\texttt{category}).
-    \item \textbf{Transaction Details}: Captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
-    \item \textbf{Seller Profile}: Includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
-    \item \textbf{Recent Seller Activity}: Summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
-\end{itemize}
-
-These feature groups collectively capture both static attributes and dynamic behavioral cues, facilitating a comprehensive analysis of user behavior for fraud detection.
 
 
-
-\begin{table}[b!]
+\begin{table}[t!]
   \centering
   \begin{tabular*}{\columnwidth}{l@{\extracolsep{\fill}}cc}
   \hline
@@ -332,6 +320,41 @@ These feature groups collectively capture both static attributes and dynamic beh
   \label{tab_category_distribution}
 \end{table}
 
+\subsection{Feature Overview}
+Each transaction instance in the dataset is represented by a set of features grouped into four key dimensions:
+
+\begin{itemize}
+    \item \textbf{Listing Metadata}: Includes the listing title (\texttt{title}), asking price (\texttt{price}), and product category (\texttt{category}).
+    \item \textbf{Transaction Details}: Captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
+    \item \textbf{Seller Profile}: Includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
+    \item \textbf{Recent Seller Activity}: Summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
+\end{itemize}
+
+These feature groups collectively capture both static attributes and dynamic behavioral cues, facilitating a comprehensive analysis of user behavior for fraud detection.
+
+
+
+\section{Experimental Methods}
+
+\subsection{Feature Extraction From Recent Fraud Cases}
+
+feature extraction from recent fraud cases is described in Fig.~\ref{fig_prompt}.
+
+
+
+
+
+\begin{figure*}[t!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./figures/fig_prompt.png}
+  \caption{Partial description for Prompt 1 to extract fraud features from the recent fraud cases.}
+\label{fig_prompt}
+\end{figure*}
+
+
+
+
+
 
 \begin{figure*}[t!]
   \centering
@@ -341,15 +364,6 @@ These feature groups collectively capture both static attributes and dynamic beh
 \end{figure*}
 
 
-
-
-% \begin{figure}[t!]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{./figures/fig_cs_category.png}
-%   \caption{Number of CS calls in each CS category. 
-%   }
-% \label{fig_cs_category}
-% \end{figure}
 
 
 
