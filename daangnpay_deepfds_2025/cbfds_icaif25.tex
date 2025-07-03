@@ -363,21 +363,37 @@ These feature groups collectively capture both static attributes and dynamic beh
 
 \section{Experiments}
 
-This study conducted experiments to determine whether each transaction event in the training dataset was fraudulent. Two primary inference approaches were illustrated in Fig.~\ref{fig_process}.
+This study investigates whether a large language model (LLM) can accurately assess the likelihood of fraud in financial transactions, given rich contextual information specific to peer-to-peer remote secondhand marketplaces. To this end, we designed a series of experiments aimed at evaluating the LLM’s ability to make context-aware inferences about the legitimacy of each transaction event.
 
-First, a one-step inference method was applied (Fig.~\ref{fig_process}A). Prompts were constructed to enable the LLM to infer the likelihood of fraud in the current transaction by comparing it against recent fraud examples and high-risk fraud factors.
+Two primary inference approaches were explored as illustrated in Fig.~\ref{fig_process}. In the one-step inference method, prompts were constructed to directly assess whether a given transaction was fraudulent. Each prompt embedded comprehensive contextual information about the target transaction along with recent fraud examples, enabling the LLM to leverage both transaction-specific features and patterns from past fraud cases.
 
-Second, a two-step inference method was implemented (Fig.~\ref{fig_process}B). In the first step, recent fraud examples which inserted into LLM prompts were clustered to identify distinct fraud types and extract representative features for each cluster. In the second step, the model evaluated whether the current transaction exhibited behavioral similarities to the identified fraud patterns, thereby inferring its likelihood of being fraudulent.
+In the two-step inference method, the fraud detection process was decomposed into two stages. In the first stage, the LLM was prompted with recent fraud examples to identify distinct fraud clusters and extract representative features for each group. In the second stage, these extracted fraud patterns were combined with the full contextual information of the target transaction in a new prompt, allowing the LLM to determine whether the transaction aligned with any known fraud patterns.
+
+
+\begin{figure*}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{./figures/fig_prompt_2step.png}
+  \caption{Illustrative description for Two-step prompts. A) First step prompt to cluster frauds and extract features. B) Second step prompt to determine whether the current transaction is fraudulent. The red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.}
+  \label{fig_prompt_2step}
+\end{figure*}
+
+
+\subsection{Proprietary LLM}\label{proprietary_llm}
+We conducted experiments to evaluate whether state-of-the-art proprietary LLMs can assess the likelihood of fraud by leveraging in-context learning, using real-world examples of recent fraudulent transactions along with rich contextual information surrounding the current transaction. Specifically, we investigated the extent to which each model could comprehend the nuances of financial fraud scenarios and accurately infer fraud likelihood in a context-sensitive manner.
+Three leading proprietary LLMs were selected for this evaluation: OpenAI's GPT-4.1, Google's Gemini 2.5 Flash, and Anthropic's Claude Sonnet 4.0. These models were tested under identical prompt structures and inference conditions to ensure a fair comparison of their reasoning capabilities and context sensitivity in the domain of peer-to-peer financial fraud detection.
 
 
 
 \subsection{One-Step Fraud Inference}
-
 In the one-step fraud inference approach, the prompt was constructed by inserting comprehensive contextual information about the transaction under evaluation, recent fraud examples, and a description of high-risk fraud indicators. The large language model (LLM) was then prompted to determine whether or not the transaction under evaluation is fraud. The prompt format used in the one-step fraud inference experiment is illustrated in Fig.~\ref{fig_prompt_1step}. In this figure, the red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.
 
 The \texttt{\{\{current\_transaction\}\}} slot was filled with full contextual information about the transaction, incorporating all features described in Section~\ref{feature_overview}. The \texttt{\{\{recent\_fraud\_examples\}\}} slot included listing attributes and seller profile information from past transactions that had been labeled as fraudulent.
 
-To investigate the impact of the number of few-shot examples on inference performance, we varied the number of recent fraud examples (N) inserted into the prompt. Specifically, for each target transaction, we extracted the most recent N fraud cases that occurred within the 24-hour period preceding it. Experiments were conducted with N = 10, 30, 50, 70, 90 to evaluate the performance of the one-step inference method under varying prompt sizes.
+To investigate the impact of the number of few-shot examples on inference performance, we varied the number of recent fraud examples (N) inserted into the prompt. Specifically, for each target transaction, we extracted the most recent N fraud cases that occurred within the 24-hour period preceding it. 
+
+The experiments were independently conducted for each of the three proprietary LLMs—GPT-4.1, Gemini 2.5 Flash, and Claude Sonnet 4.0—by repeatedly applying the same protocol across varying values of N (10, 30, 50, 70, 90). This ensured a consistent and comparative evaluation of the one-step inference performance across all models under different prompt sizes.
+
+
 
 
 
@@ -389,17 +405,30 @@ In the first step, the LLM was prompted with recent fraud examples to perform fr
 
 In the second step, the LLM was presented with a new prompt (Fig.~\ref{fig_prompt_2step}B) that incorporated both the fraud patterns extracted in the first step and the full contextual information of the target transaction as described in Section~\ref{feature_overview}. Based on this prompt, the LLM was tasked with assessing whether the given transaction exhibited fraudulent characteristics or not.
 
-As in the one-step inference approach, we investigated how the number of few-shot examples influenced both the quality of feature extraction and the performance of fraud inference. For each transaction, we selected the most recent N fraud cases that occurred within a 24-hour window prior to the transaction. Experiments were conducted with N = 10, 30, 50, 70, and 90 to evaluate the impact of the number of examples on inference performance.
+As in the one-step inference approach, we investigated how the number of few-shot examples influenced both the quality of feature extraction and the performance of fraud inference. For each transaction, we selected the most recent N fraud cases that occurred within a 24-hour window prior to the transaction. 
+
+The same two-step inference procedure was independently applied to all three proprietary LLMs—GPT-4.1, Gemini 2.5 Flash, and Claude Sonnet 4.0—repeatedly across different values of N (10, 30, 50, 70, and 90), enabling a model-by-model comparison under identical experimental conditions.
 
 
 
 
-\begin{figure*}[b!]
-  \centering
-  \includegraphics[width=0.98\textwidth]{./figures/fig_prompt_2step.png}
-  \caption{Illustrative description for Two-step prompts. A) First step prompt to cluster frauds and extract features. B) Second step prompt to determine whether the current transaction is fraudulent. The red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.}
-  \label{fig_prompt_2step}
-\end{figure*}
+
+\subsection{Evaluation Metrics}\label{evaluation_metrics}
+To comprehensively assess the performance of the proposed fraud inference approaches, we report three widely adopted evaluation metrics: precision, recall, and F1-score. These metrics are particularly important in real-world fraud detection scenarios, where both false positives (misclassifying a legitimate transaction as fraudulent) and false negatives (failing to detect an actual fraud) entail significant practical consequences.
+Precision quantifies the proportion of transactions predicted as fraudulent that are indeed fraudulent. It reflects the model's effectiveness in minimizing false alarms and is particularly valuable when the cost of incorrectly flagging legitimate users is high.
+\begin{equation}
+ \text{Precision} = \frac{\text{True Positive}}{\text{True Positive} + \text{False Positive}}
+ \end{equation}
+Recall measures the proportion of actual fraudulent transactions that are correctly identified by the model. It captures the model's sensitivity to fraud cases and is especially critical when the cost of missing fraudulent behavior is high.
+\begin{equation}
+ \text{Recall} = \frac{\text{True Positive}}{\text{True Positive} + \text{False Negative}}
+ \end{equation}
+F1-score is the harmonic mean of precision and recall, providing a balanced metric that accounts for both types of classification errors. It is particularly suitable when neither precision nor recall can be compromised, as is often the case in fraud detection systems.
+\begin{equation}
+ \text{F1-score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+ \end{equation}
+
+
 
 
 \section{Experimental Results}\label{results}
