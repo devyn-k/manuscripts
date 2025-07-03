@@ -132,7 +132,7 @@
 %%
 %% The "title" command has an optional parameter,
 %% allowing the author to define a "short title" to be used in page headers.
-\title{In-Context Learning for Smarter Fraud Detection in Remote Secondhand Transactions}
+\title{In-Context Learning for Smarter Fraud Detection in Remote Flea Market Transactions}
 
 %%
 %% The "author" command and its associated commands are used to define
@@ -280,9 +280,6 @@ Through ICL, LLMs can implicitly learn patterns from a few in-context examples a
 
 
 \section{Datasets}\label{datasets}
-This study leverages proprietary real-world transaction data provided by Danggeun Pay Inc., a financial technology company that operates the official payment infrastructure for Danggeun Market Inc.—a widely used local community platform in South Korea. The platform supports a variety of services, including secondhand goods trading, real estate listings, part-time job postings, and more. Within this ecosystem, Danggeun Pay facilitates peer-to-peer (P2P) payments, enabling the collection of fine-grained transactional records that are particularly rich in behavioral signals relevant to fraud detection.
-
-The dataset comprises transaction-level records labeled as either fraudulent or normal. Each transaction is augmented with accompanying listing metadata as well as detailed behavioral features extracted from the seller's historical activity. The dataset was curated for the express purpose of facilitating machine learning research on fraud detection in P2P commerce and offers a comprehensive foundation for studying behavioral patterns in online trust-mediated environments.
 
 \begin{figure}[t!]
   \centering
@@ -292,17 +289,12 @@ The dataset comprises transaction-level records labeled as either fraudulent or 
 \end{figure}
 
 
-\subsection{Data Collection and Sampling}
-The dataset includes transactions conducted over a two-month period, from April to May 2025. To ensure balanced model training and fair evaluation across fraud classes, stratified sampling based on ground-truth fraud labels was applied. As shown in Fig.~\ref{fig_dataset}, a total of 1,370 transactions were selected, with a class distribution ratio of approximately 1:2 (fraudulent to normal transactions), providing a sufficiently diverse dataset for evaluating fraud detection performance.
+This study leverages proprietary real-world transaction data provided by Danggeun Pay Inc., a financial technology company that operates the official payment infrastructure for Danggeun Market Inc.—a widely used local community platform in South Korea. The platform supports a variety of services, including secondhand goods trading, real estate listings, part-time job postings, and more. Within this ecosystem, Danggeun Pay facilitates peer-to-peer (P2P) payments, enabling the collection of fine-grained transactional records that are particularly rich in behavioral signals relevant to fraud detection.
 
-\subsection{Category-Wise Distribution}
-The sampled transactions span seven major product categories, each exhibiting distinct fraud risk profiles. Table~\ref{tab_category_distribution} summarizes the distribution of fraudulent and legitimate transactions across these categories.
-
-Notably, categories with high liquidity and resale value—such as tickets—exhibit a disproportionately high rate of fraudulent activity. This heterogeneity underscores the importance of incorporating category-specific behavioral patterns into fraud detection models.
+The dataset comprises transaction-level records labeled as either fraudulent or normal. Each transaction is augmented with accompanying listing metadata as well as detailed behavioral features extracted from the seller's historical activity. The dataset was curated for the express purpose of facilitating machine learning research on fraud detection in P2P commerce and offers a comprehensive foundation for studying behavioral patterns in online trust-mediated environments.
 
 
-
-\begin{table}[t!]
+\begin{table}[b!]
   \centering
   \begin{tabular*}{\columnwidth}{l@{\extracolsep{\fill}}cc}
   \hline
@@ -320,56 +312,94 @@ Notably, categories with high liquidity and resale value—such as tickets—exh
   \label{tab_category_distribution}
 \end{table}
 
-\subsection{Feature Overview}
+
+
+\begin{figure*}[t!]
+  \centering
+  \includegraphics[width=0.98\textwidth]{./figures/fig_process.png}
+  \caption{Overview of the experimental processes. A) One-step inference approach. B) Two-step inference approach.}
+  \label{fig_process}
+\end{figure*}
+
+
+
+\subsection{Training and Test Split}
+The dataset includes transactions conducted over a two-month period, from April to May 2025. To ensure balanced model training and fair evaluation across fraud classes, stratified sampling based on ground-truth fraud labels was applied. As shown in Fig.~\ref{fig_dataset}A, a total of 1,370 transactions were selected, with a class distribution ratio of approximately 1:2 (fraudulent to normal transactions), providing a sufficiently diverse dataset for evaluating fraud detection performance.
+
+The dataset was temporally partitioned based on the transaction date. Transactions that occurred in April 2025 were designated as the training dataset (430 legitimate cases; 204 fraudulent cases), while those from May 2025 were allocated to the test dataset (470 legitimate cases; 266 fraudulent cases). The training dataset was not primarily used for direct model training but rather for extracting recent fraud cases during the experimental process. The test dataset was utilized to evaluate the performance of the proposed fraud detection methods.
+
+
+
+\subsection{Category-Wise Distribution}
+The sampled transactions span seven major product categories, each exhibiting distinct fraud risk profiles as shown in Fig.~\ref{fig_dataset}B. Table~\ref{tab_category_distribution} summarizes the distribution of fraudulent and legitimate transactions across these categories.
+
+Notably, categories with high liquidity and resale value—such as tickets—exhibit a disproportionately high rate of fraudulent activity. This heterogeneity underscores the importance of incorporating category-specific behavioral patterns into fraud detection models.
+
+
+
+\subsection{Feature Overview}\label{feature_overview}
 Each transaction instance in the dataset is represented by a set of features grouped into four key dimensions:
 
 \begin{itemize}
-    \item \textbf{Listing Metadata}: Includes the listing title (\texttt{title}), asking price (\texttt{price}), and product category (\texttt{category}).
-    \item \textbf{Transaction Details}: Captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
-    \item \textbf{Seller Profile}: Includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
-    \item \textbf{Recent Seller Activity}: Summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
+    \item \textbf{Listing Metadata}: This feature includes the listing title (\texttt{title}), listed price (\texttt{price}), and product category (\texttt{category}).
+    \item \textbf{Transaction Details}: This feature captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
+    \item \textbf{Seller Profile}: This feature includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
+    \item \textbf{Recent Seller Activity}: This feature summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
 \end{itemize}
 
 These feature groups collectively capture both static attributes and dynamic behavioral cues, facilitating a comprehensive analysis of user behavior for fraud detection.
 
 
 
-\section{Experimental Methods}
 
-\subsection{Feature Extraction From Recent Fraud Cases}
-
-feature extraction from recent fraud cases is described in Fig.~\ref{fig_prompt}.
-
-
-
-
-
-\begin{figure*}[t!]
+\begin{figure}[b!]
   \centering
-  \includegraphics[width=0.9\textwidth]{./figures/fig_prompt.png}
-  \caption{Partial description for Prompt 1 to extract fraud features from the recent fraud cases.}
-\label{fig_prompt}
-\end{figure*}
+  \includegraphics[width=0.48\textwidth]{./figures/fig_prompt_1step.png}
+  \caption{Partial description for one-step approach. The red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.}
+\label{fig_prompt_1step}
+\end{figure}
+
+
+
+\section{Experiments}
+
+This study conducted experiments to determine whether each transaction event in the training dataset was fraudulent. Two primary inference approaches were illustrated in Fig.~\ref{fig_process}.
+
+First, a one-step inference method was applied (Fig.~\ref{fig_process}A). Prompts were constructed to enable the LLM to infer the likelihood of fraud in the current transaction by comparing it against recent fraud examples and high-risk fraud factors.
+
+Second, a two-step inference method was implemented (Fig.~\ref{fig_process}B). In the first step, recent fraud examples which inserted into LLM prompts were clustered to identify distinct fraud types and extract representative features for each cluster. In the second step, the model evaluated whether the current transaction exhibited behavioral similarities to the identified fraud patterns, thereby inferring its likelihood of being fraudulent.
+
+
+
+\subsection{One-Step Fraud Inference}
+
+In the one-step fraud inference approach, the prompt was constructed by inserting comprehensive contextual information about the transaction under evaluation, recent fraud examples, and a description of high-risk fraud indicators. The large language model (LLM) was then prompted to determine whether or not the transaction under evaluation is fraud. The prompt format used in the one-step fraud inference experiment is illustrated in Fig.~\ref{fig_prompt_1step}. In this figure, the red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.
+
+The \texttt{\{\{current\_transaction\}\}} slot was filled with full contextual information about the transaction, incorporating all features described in Section~\ref{feature_overview}. The \texttt{\{\{recent\_fraud\_examples\}\}} slot included listing attributes and seller profile information from past transactions that had been labeled as fraudulent.
+
+To investigate the impact of the number of few-shot examples on inference performance, we varied the number of recent fraud examples (N) inserted into the prompt. Specifically, for each target transaction, we extracted the most recent N fraud cases that occurred within the 24-hour period preceding it. Experiments were conducted with N = 10, 30, 50, 70, 90 to evaluate the performance of the one-step inference method under varying prompt sizes.
 
 
 
 
+\subsection{Two-Step Fraud Inference}
+
+In the two-step fraud inference approach, the evaluation of a target transaction's likelihood of being fraudulent was conducted through a two-stage invocation of the LLM (Fig.~\ref{fig_process}B).
+In the first step, the LLM was prompted with recent fraud examples to perform fraud clustering and extract representative features for each identified cluster (see the descriptive LLM prompt in Fig.~\ref{fig_prompt_2step}A). The fraud features generated in this step—derived in a data-driven manner—were subsequently used as input for the second LLM invocation.
+
+In the second step, the LLM was presented with a new prompt (Fig.~\ref{fig_prompt_2step}B) that incorporated both the fraud patterns extracted in the first step and the full contextual information of the target transaction as described in Section~\ref{feature_overview}. Based on this prompt, the LLM was tasked with assessing whether the given transaction exhibited fraudulent characteristics or not.
+
+As in the one-step inference approach, we investigated how the number of few-shot examples influenced both the quality of feature extraction and the performance of fraud inference. For each transaction, we selected the most recent N fraud cases that occurred within a 24-hour window prior to the transaction. Experiments were conducted with N = 10, 30, 50, 70, and 90 to evaluate the impact of the number of examples on inference performance.
 
 
-\begin{figure*}[t!]
+
+
+\begin{figure*}[b!]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/fig_process.png}
-  \caption{Overview of the proposed framework.}
-\label{fig_process}
+  \includegraphics[width=0.98\textwidth]{./figures/fig_prompt_2step.png}
+  \caption{Illustrative description for Two-step prompts. A) First step prompt to cluster frauds and extract features. B) Second step prompt to determine whether the current transaction is fraudulent. The red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.}
+  \label{fig_prompt_2step}
 \end{figure*}
-
-
-
-
-
-
-
-
 
 
 \section{Experimental Results}\label{results}
@@ -383,15 +413,6 @@ this part is not ready yet.
 this part is not ready yet.
 
 
-
-
-% \begin{figure}[t!]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{./figures/fig_var_tasks.png}
-%   \caption{Illustrative inference outcomes of the fine-tuning model using multiple instruction templates. The task instructions and their corresponding outputs are demonstrated for (A) an instance of instruction 1 (Write a detailed summary of the inquiry and the resolution process in the following CS dialogue), (B) instruction 2 (Write a brief summary of the following CS dialogue), and (C) instruction 3 (Write a short summary of the following CS inquiry within 5 words). 
-%   }
-% \label{fig_var_tasks}
-% \end{figure}
 
 
 
