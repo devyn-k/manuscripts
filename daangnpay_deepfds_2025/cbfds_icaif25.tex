@@ -143,7 +143,7 @@
 
 
 \author{Hyunwoo Kim}
-\orcid{xxxxxxxx}
+% \orcid{xxxxxxxx}
 % \authornote{These authors contributed equally to this research}
 \affiliation{%
   \institution{Danggeun Pay Inc.}
@@ -155,7 +155,7 @@
 
 
 \author{Hyunmyoung Oh}
-\orcid{xxxxxxxx}
+% \orcid{xxxxxxxx}
 % \authornotemark[1]
 \affiliation{%
   \institution{Danggeun Pay Inc.}
@@ -248,20 +248,22 @@ Recently, Large Language Models (LLMs) have emerged in the financial domain as a
 
 Furthermore, LLMs possess the ability to cross-reference contextual information across multiple transactions. For example, the repeated use of similar phrases, emojis, or urgent language across listings from different user accounts may be linked to a single fraud actor~\cite{pan2020}. This capability is significantly enhanced through In-Context Learning (ICL), which enables LLMs to perform fraud detection tasks with minimal examples and without requiring explicit model fine-tuning~\cite{zhao2024fewshing}. ICL is particularly advantageous in scenarios where large-scale labeled datasets are unavailable and where fraud tactics evolve rapidly.
 
-Moreover, the increasing sophistication of fraudsters—who now leverage generative AI to craft convincing phishing messages, fabricate identities, and produce deepfake documents—underscores the urgency for platforms to deploy equally advanced AI-based defense mechanisms. This technological arms race necessitates the adoption of LLM-powered, intelligent fraud detection frameworks.
+However, the increasing sophistication of fraudsters—who now leverage generative artificial intelligence (AI) to craft convincing phishing messages, fabricate identities, and produce deepfake documents—underscores the urgency for platforms to deploy equally advanced AI-based defense mechanisms. This technological arms race necessitates the adoption of LLM-powered, intelligent fraud detection frameworks.
 
 In this study, we propose a novel fraud detection framework tailored to non-face-to-face second-hand trading environments, leveraging LLM-based In-Context Learning. We investigate two distinct inference approaches: a one-step method that directly classifies transactions using contextual information and recent fraud examples, and a two-step method that first extracts fraud patterns from historical cases before making classification decisions. To comprehensively evaluate our approach, we conduct experiments across three state-of-the-art proprietary LLMs—GPT-4.1, Gemini 2.5 Flash, and Claude Sonnet 4.0—while systematically varying the number of few-shot examples to assess their impact on detection performance. Our experimental results demonstrate the effectiveness of LLM-based In-Context Learning for fraud detection in peer-to-peer marketplace environments.
 
 
 
 \section{Related Works}\label{related_work}
+The evolution of fraud detection has progressed from traditional machine learning approaches to sophisticated LLM-based methods, with recent advances in In-Context Learning opening new possibilities for adaptive fraud detection systems. This section reviews the relevant literature across three key domains: established ML-based fraud detection techniques, emerging LLM-based approaches for financial fraud detection, and the application of In-Context Learning for fraud pattern recognition. These foundational works inform our proposed framework and provide context for the advantages of LLM-based In-Context Learning in rapidly evolving fraud landscapes.
+
 \subsection{ML-Based Fraud Detection}
 A wide range of studies in both industry and academia have sought to advance techniques for financial fraud detection. One line of research focuses on representing transaction histories between bank accounts as graphs, enabling the development of graph-based fraud detection models that significantly outperform traditional baselines in terms of F1 score performance~\cite{lin2024graphtransformer, yoo2023medicare}.
 
 Simultaneously, increasing attention has been paid to fraud in peer-to-peer transactions within online marketplaces, where financial transactions often accompany interpersonal exchanges. A prominent example is merchant fraud, in which a scammer lists trending products at unusually low prices, receives payment, and fails to deliver the goods. This type of fraud is especially prevalent in remote second-hand platforms. Some studies have addressed this issue by analyzing fraudulent seller accounts and building machine learning-based detection models using features derived from transaction histories and product listings~\cite{hasan2022ecommerce, renjith2018}.
 
 \subsection{LLM-Based Fraud Detection}  
-With the advent of large language models (LLMs), researchers and practitioners have actively explored their potential for financial fraud detection. Traditional methods—such as logistic regression, random forests, and neural networks—have long been applied to detect fraud (e.g., in credit card transactions), but these models face limitations when dealing with highly imbalanced datasets and evolving fraud patterns~\cite{yu2024card_fds}.
+With the advent of LLMs, researchers and practitioners have actively explored their potential for financial fraud detection. Traditional methods—such as logistic regression, random forests, and neural networks—have long been applied to detect fraud (e.g., in credit card transactions), but these models face limitations when dealing with highly imbalanced datasets and evolving fraud patterns~\cite{yu2024card_fds}.
 
 
 
@@ -297,7 +299,16 @@ With the advent of large language models (LLMs), researchers and practitioners h
 
 Recent studies suggest that Transformer-based LLMs are better suited for capturing long-range dependencies and subtle correlations in transaction data, leading to improved detection performance~\cite{chen2021pareto, liu2019stockline}. For example, Yu et al. (2024) demonstrate that Transformer-based models outperform conventional machine learning approaches in terms of accuracy and are particularly effective at identifying rare fraudulent cases~\cite{yu2024card_fds, lyu2023attention}. The pretraining of LLMs on vast corpora enables them to develop commonsense understanding of sequences, which can be further enhanced through retrieval-augmented generation (RAG) methods to boost detection capabilities~\cite{pandey2024rag}.
 
-Moreover, LLMs have proven useful in understanding long context~\cite{bertsch2025,chen2024longcontext} and processing unstructured data alongside structured transactional features. These models can detect fraud-indicative language and anomalies in textual sources such as transaction notes, emails, and chat logs. This capacity allows them to surface social engineering attempts or abnormal phrasing in online interactions—types of fraud that often evade detection by traditional rule-based or statistical systems.
+Beyond their superior performance on structured data, LLMs excel at understanding long context~\cite{bertsch2025,chen2024longcontext} and processing unstructured contextual information alongside structured transactional features. This capability enables them to detect fraud-indicative language patterns and anomalies across extended conversation histories, transaction notes, emails, and chat logs. By analyzing contextual cues and communication patterns, LLMs can surface social engineering attempts and abnormal phrasing in online interactions—types of fraud that often evade detection by traditional rule-based or statistical systems.
+
+
+
+\subsection{In-Context Learning for Fraud Pattern Recognition}
+ICL has emerged as a powerful paradigm that enables LLMs to perform tasks without explicit fine-tuning. Introduced by Brown et al. (2020) with the release of GPT-3, ICL allows a model to generalize to new tasks using only a prompt containing a few labeled examples~\cite{brown2020llm_fewshot}. This characteristic makes ICL particularly well-suited for fraud detection scenarios, where only a small number of examples of emerging fraud types may be available.
+
+Through ICL, LLMs can implicitly learn patterns from a few in-context examples and adapt to new fraud types in real time. Liu et al. (2024) apply this concept to graph-based anomaly detection, using a handful of normal nodes as context to identify outliers in unseen graphs without additional training~\cite{liu2024anomaly}. Similarly, Bhattacharya et al. (2025) propose a system that converts structured transaction features (e.g., amount, location, device information) into natural language descriptions and feeds them into an LLM along with a few labeled examples, enabling accurate classification of novel transactions as fraudulent or legitimate~\cite{bhattacharya2024fraud}.
+
+
 
 
 \begin{figure*}[t!]
@@ -306,12 +317,6 @@ Moreover, LLMs have proven useful in understanding long context~\cite{bertsch202
   \caption{Overview of the proposed LLM-based fraud detection framework. (A) One-step inference approach that directly classifies transactions by incorporating target transaction details, recent fraud examples, and contextual information in a single prompt (detailed prompt structure shown in Fig.~\ref{fig_prompt_1step}). (B) Two-step inference approach that first extracts fraud patterns from historical cases, then uses these patterns along with target transaction information for classification (detailed prompt structures shown in Fig.~\ref{fig_prompt_2step}). Both approaches leverage dynamic few-shot learning with temporally sampled fraud examples.}
   \label{fig_process}
 \end{figure*}
-
-
-\subsection{In-Context Learning for Fraud Pattern Recognition}
-In-context learning (ICL) has emerged as a powerful paradigm that enables LLMs to perform tasks without explicit fine-tuning. Introduced by Brown et al. (2020) with the release of GPT-3, ICL allows a model to generalize to new tasks using only a prompt containing a few labeled examples~\cite{brown2020llm_fewshot}. This characteristic makes ICL particularly well-suited for fraud detection scenarios, where only a small number of examples of emerging fraud types may be available.
-
-Through ICL, LLMs can implicitly learn patterns from a few in-context examples and adapt to new fraud types in real time. Liu et al. (2024) apply this concept to graph-based anomaly detection, using a handful of normal nodes as context to identify outliers in unseen graphs without additional training~\cite{liu2024anomaly}. Similarly, Bhattacharya et al. (2025) propose a system that converts structured transaction features (e.g., amount, location, device information) into natural language descriptions and feeds them into an LLM along with a few labeled examples, enabling accurate classification of novel transactions as fraudulent or legitimate~\cite{bhattacharya2024fraud}.
 
 
 
@@ -346,14 +351,54 @@ Notably, categories with high liquidity and resale value—such as tickets—exh
 Each transaction instance in the dataset is represented by a set of features grouped into four key dimensions:
 
 \begin{itemize}
-    \item \textbf{Listing Metadata}: This feature includes the listing title (\texttt{title}), listed price (\texttt{price}), and product category (\texttt{category}).
-    \item \textbf{Transaction Details}: This feature captures transaction timestamp (\texttt{tx\_dttm}) and transaction amount (\texttt{tx\_amt}).
-    \item \textbf{Seller Profile}: This feature includes demographic and account-level attributes such as seller age (\texttt{seller\_age}) and account tenure in days (\texttt{seller\_account\_tenure}).
-    \item \textbf{Recent Seller Activity}: This feature summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions (\texttt{recent\_tx\_cnt}), cumulative transaction amount (\texttt{recent\_tx\_amt\_sum}), and number of unique counterparties (\texttt{recent\_unique\_buyers}).
+    \item \textbf{Listing Metadata}: This feature includes the listing title, listed price, and product category.
+    \item \textbf{Transaction Details}: This feature captures transaction timestamp and transaction amount.
+    \item \textbf{Seller Profile}: This feature includes demographic and account-level attributes such as seller age and account tenure in days.
+    \item \textbf{Recent Seller Activity}: This feature summarizes behavioral signals over a 24-hour window preceding the listing. This includes the number of prior transactions, cumulative transaction amount, and number of unique counterparties.
 \end{itemize}
 
 These feature groups collectively capture both static attributes and dynamic behavioral cues, facilitating a comprehensive analysis of user behavior for fraud detection.
 
+
+
+
+
+
+
+\section{Experiments}
+
+This study investigates whether an LLM can accurately classify whether the given financial transaction was fraudulent or not, given rich contextual information specific to peer-to-peer remote second-hand marketplaces. To this end, we designed a series of experiments aimed at evaluating the LLM's ability to make context-aware inferences about the legitimacy of each transaction event.
+
+Two primary inference approaches were explored as illustrated in Fig.~\ref{fig_process}. In the one-step inference method, prompts were constructed to directly assess whether a given transaction was fraudulent. Each prompt embedded comprehensive contextual information about the target transaction along with recent fraud examples, enabling the LLM to leverage both transaction-specific features and patterns from past fraud cases.
+
+In the two-step inference method, the fraud detection process was decomposed into two stages. In the first stage, the LLM was prompted with recent fraud examples to identify distinct fraud clusters and extract representative features for each group. In the second stage, these extracted fraud patterns were combined with the full contextual information of the target transaction in a new prompt, allowing the LLM to determine whether the transaction aligned with any known fraud patterns.
+
+
+
+
+\subsection{Proprietary LLM}\label{proprietary_llm}
+We conducted experiments to evaluate whether state-of-the-art proprietary LLMs can classify whether the given transaction was fraudulent or not by leveraging in-context learning, using real-world examples of recent fraudulent transactions along with rich contextual information surrounding the current transaction. Specifically, we investigated the extent to which each model could comprehend the nuances of financial fraud scenarios and accurately infer whether the target transaction was fraudulent or not in a context-sensitive manner.
+Three leading proprietary LLMs were selected for this evaluation: OpenAI's GPT 4.1, Google's Gemini 2.5 Flash, and Anthropic's Claude Sonnet 4.0. These models were tested under identical prompt structures and inference conditions to ensure a fair comparison of their reasoning capabilities and context sensitivity in the domain of peer-to-peer financial fraud detection.
+
+
+
+
+
+\subsection{Dynamic Sampling of Fraud Examples}\label{fraud_examples}
+Fraud examples were constructed by converting the listing metadata and seller profile information of transactions labeled as fraudulent in the full dataset into a structured textual format. These examples served as representative few-shot instances for prompt-based inference. Below are two illustrative examples:
+
+\begin{itemize}
+  \item Title of Listing: iPhone 7 Silver, Category: electronics, Listed Price: 50,000, Seller Age: 15, Seller Account Tenure: 18 days
+  \item Title of Listing: Stokke Tripp Trapp Newborn Set (Baby Chair), Category: baby and kids, Listed Price: 130,000, Seller Age: 16, Seller Account Tenure: 1 day
+\end{itemize}
+
+
+
+
+
+These examples were dynamically inserted into the prompts used in both the one-step (see Sections~\ref{one_step_inference} and Fig.~\ref{fig_prompt_1step}) and two-step (see Section~\ref{two_step_inference} and Fig.~\ref{fig_prompt_2step}) inference experiments. For each target transaction, we chronologically sorted the full set of fraudulent transactions and selected the $N$ most recent cases that occurred within the 24 hours preceding the transaction's timestamp. These time-filtered examples provided temporally relevant fraud signals for the LLM to reference during inference.
+
+This dynamic sampling strategy was designed to improve the model's ability to detect emerging fraud tactics by leveraging temporally proximate examples that reflect recent behavioral patterns in peer-to-peer marketplaces.
 
 
 
@@ -366,13 +411,15 @@ These feature groups collectively capture both static attributes and dynamic beh
 
 
 
-\section{Experiments}
 
-This study investigates whether a large language model (LLM) can accurately classify whether the given financial transaction was fraudulent or not, given rich contextual information specific to peer-to-peer remote second-hand marketplaces. To this end, we designed a series of experiments aimed at evaluating the LLM’s ability to make context-aware inferences about the legitimacy of each transaction event.
+\subsection{One-Step Fraud Inference}\label{one_step_inference}
+In the one-step fraud inference approach, the prompt was constructed by inserting comprehensive contextual information about the transaction under evaluation, recent fraud examples, and a description of high-risk fraud indicators. The LLM was then prompted to determine whether or not the transaction under evaluation is fraud. The prompt format used in the one-step fraud inference experiment is illustrated in Fig.~\ref{fig_prompt_1step}. In this figure, the red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.
 
-Two primary inference approaches were explored as illustrated in Fig.~\ref{fig_process}. In the one-step inference method, prompts were constructed to directly assess whether a given transaction was fraudulent. Each prompt embedded comprehensive contextual information about the target transaction along with recent fraud examples, enabling the LLM to leverage both transaction-specific features and patterns from past fraud cases.
+The \texttt{\{\{current\_transaction\}\}} slot was filled with full contextual information about the transaction, incorporating all features described in Section~\ref{feature_overview}. The \texttt{\{\{recent\_fraud\_examples\}\}} slot included listing metadata and seller profile information from past transactions that had been labeled as fraudulent.
 
-In the two-step inference method, the fraud detection process was decomposed into two stages. In the first stage, the LLM was prompted with recent fraud examples to identify distinct fraud clusters and extract representative features for each group. In the second stage, these extracted fraud patterns were combined with the full contextual information of the target transaction in a new prompt, allowing the LLM to determine whether the transaction aligned with any known fraud patterns.
+To investigate the impact of the number of few-shot examples on inference performance, we varied the number of recent fraud examples ($N$) inserted into the prompt. Specifically, for each target transaction, we extracted the most recent $N$ fraud cases that occurred within the 24-hour period preceding it. 
+
+The experiments were independently conducted for each of the three proprietary LLMs—GPT 4.1, Gemini 2.5 Flash, and Claude Sonnet 4.0—by repeatedly applying the same protocol across varying values of $N$ (10, 30, 50, 70, 90). This ensured a consistent and comparative evaluation of the one-step inference performance across all models under different prompt sizes.
 
 
 \begin{figure*}[t!]
@@ -381,36 +428,6 @@ In the two-step inference method, the fraud detection process was decomposed int
   \caption{Prompt structures for the two-step fraud inference approach. (A) First-step prompt designed to cluster recent fraud examples and extract representative fraud patterns from historical cases. (B) Second-step prompt that incorporates both the extracted fraud patterns from step A and full contextual information of the target transaction to make final classification decisions. The red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.}
   \label{fig_prompt_2step}
 \end{figure*}
-
-
-\subsection{Proprietary LLM}\label{proprietary_llm}
-We conducted experiments to evaluate whether state-of-the-art proprietary LLMs can classify whether the given transaction was fraudulent or not by leveraging in-context learning, using real-world examples of recent fraudulent transactions along with rich contextual information surrounding the current transaction. Specifically, we investigated the extent to which each model could comprehend the nuances of financial fraud scenarios and accurately infer whether the target transaction was fraudulent or not in a context-sensitive manner.
-Three leading proprietary LLMs were selected for this evaluation: OpenAI's GPT 4.1, Google's Gemini 2.5 Flash, and Anthropic's Claude Sonnet 4.0. These models were tested under identical prompt structures and inference conditions to ensure a fair comparison of their reasoning capabilities and context sensitivity in the domain of peer-to-peer financial fraud detection.
-
-
-
-\subsection{Dynamic Sampling of Fraud Examples}\label{fraud_examples}
-Fraud examples were constructed by converting the listing metadata and seller profile information of transactions labeled as fraudulent in the full dataset into a structured textual format. These examples served as representative few-shot instances for prompt-based inference. Below are two illustrative examples:
-
-\begin{itemize}
-  \item Title of Listing: iPhone 7 Silver, Category: electronics, Listed Price: 50,000, Seller Age: 15, Seller Account Tenure: 18 days
-  \item Title of Listing: Stokke Tripp Trapp Newborn Set (Baby Chair), Category: baby and kids, Listed Price: 130,000, Seller Age: 16, Seller Account Tenure: 1 day
-\end{itemize}
-
-These examples were dynamically inserted into the prompts used in both the one-step (see Sections~\ref{one_step_inference} and Fig.~\ref{fig_prompt_1step}) and two-step (see Section~\ref{two_step_inference} and Fig.~\ref{fig_prompt_2step}) inference experiments. For each target transaction, we chronologically sorted the full set of fraudulent transactions and selected the $N$ most recent cases that occurred within the 24 hours preceding the transaction's timestamp. These time-filtered examples provided temporally relevant fraud signals for the LLM to reference during inference.
-
-This dynamic sampling strategy was designed to improve the model's ability to detect emerging fraud tactics by leveraging temporally proximate examples that reflect recent behavioral patterns in peer-to-peer marketplaces.
-
-
-\subsection{One-Step Fraud Inference}\label{one_step_inference}
-In the one-step fraud inference approach, the prompt was constructed by inserting comprehensive contextual information about the transaction under evaluation, recent fraud examples, and a description of high-risk fraud indicators. The large language model (LLM) was then prompted to determine whether or not the transaction under evaluation is fraud. The prompt format used in the one-step fraud inference experiment is illustrated in Fig.~\ref{fig_prompt_1step}. In this figure, the red text enclosed in double curly brackets denotes dynamic input parameters that were updated at each LLM invocation.
-
-The \texttt{\{\{current\_transaction\}\}} slot was filled with full contextual information about the transaction, incorporating all features described in Section~\ref{feature_overview}. The \texttt{\{\{recent\_fraud\_examples\}\}} slot included listing metadata and seller profile information from past transactions that had been labeled as fraudulent.
-
-To investigate the impact of the number of few-shot examples on inference performance, we varied the number of recent fraud examples ($N$) inserted into the prompt. Specifically, for each target transaction, we extracted the most recent $N$ fraud cases that occurred within the 24-hour period preceding it. 
-
-The experiments were independently conducted for each of the three proprietary LLMs—GPT 4.1, Gemini 2.5 Flash, and Claude Sonnet 4.0—by repeatedly applying the same protocol across varying values of $N$ (10, 30, 50, 70, 90). This ensured a consistent and comparative evaluation of the one-step inference performance across all models under different prompt sizes.
-
 
 
 
@@ -450,7 +467,7 @@ F1-score is the harmonic mean of precision and recall, providing a balanced metr
 
 
 \section{Experimental Results}\label{results}
-this part is not ready yet~\ref{fig_results}.
+We conducted comprehensive experiments to evaluate the effectiveness of our proposed LLM-based fraud detection framework across both one-step and two-step inference approaches. Our evaluation utilized the Danggeun Pay dataset described in Section~\ref{datasets}, systematically varying the number of few-shot fraud examples from 10 to 90 across three state-of-the-art proprietary LLMs. The results, summarized in Fig.~\ref{fig_results}, demonstrate significant performance variations across models, inference approaches, and the number of contextual examples provided. Notably, GPT-4.1 consistently outperformed other models in both inference settings, while the optimal number of few-shot examples varied considerably across different LLMs and performance metrics.
 
 
 \begin{figure*}[t!]
@@ -488,7 +505,7 @@ The highest overall F1-score, the harmonic mean of precision and recall, was rec
 
 
 \section{Conclusions}\label{conclusions}
-This study demonstrates the effectiveness of LLM-based In-Context Learning for fraud detection in remote second-hand marketplact environments. Our comprehensive evaluation across three state-of-the-art proprietary LLMs—GPT-4.1, Gemini 2.5 Flash, and Claude Sonnet 4—reveals that both one-step and two-step inference approaches can achieve substantial fraud detection performance without requiring model fine-tuning or extensive labeled datasets. The experimental results show that GPT-4.1 consistently outperforms other models, achieving the highest F1-score of 78.9\% in the two-step inference setting with only 10 recent fraud examples. Notably, the optimal configuration varies significantly across models and performance metrics: while GPT-4.1 excels in balanced performance, Gemini 2.5 Flash achieves the highest precision (84.3\%), and Claude Sonnet 4 demonstrates superior recall (95.5\%). These findings confirm that the number of contextual fraud examples and the inference strategy must be carefully calibrated based on the specific LLM architecture and desired performance characteristics.
+This study demonstrates the effectiveness of LLM-based In-Context Learning for fraud detection in remote second-hand marketplace environments. Our comprehensive evaluation across three state-of-the-art proprietary LLMs—GPT-4.1, Gemini 2.5 Flash, and Claude Sonnet 4—reveals that both one-step and two-step inference approaches can achieve substantial fraud detection performance without requiring model fine-tuning or extensive labeled datasets. The experimental results show that GPT-4.1 consistently outperforms other models, achieving the highest F1-score of 78.9\% in the two-step inference setting with only 10 recent fraud examples. Notably, the optimal configuration varies significantly across models and performance metrics: while GPT-4.1 excels in balanced performance, Gemini 2.5 Flash achieves the highest precision (84.3\%), and Claude Sonnet 4 demonstrates superior recall (95.5\%). These findings confirm that the number of contextual fraud examples and the inference strategy must be carefully calibrated based on the specific LLM architecture and desired performance characteristics.
 
 The practical implications of this research extend beyond academic interest, offering a scalable solution for financial technology companies operating peer-to-peer marketplaces. Unlike traditional machine learning approaches that require extensive feature engineering and continuous retraining, our LLM-based framework can adapt to emerging fraud patterns through dynamic few-shot learning, making it particularly valuable in rapidly evolving fraud landscapes. The temporal sampling strategy employed in our experiments—extracting recent fraud cases within 24-hour windows—provides a realistic approach to maintaining contextual relevance while managing computational costs. However, several limitations warrant consideration for future research. The reliance on proprietary LLMs may present scalability and cost challenges for widespread deployment, suggesting the need for investigation into open-source alternatives. Additionally, the evaluation was conducted on a single platform's data, and cross-platform generalizability requires validation. Future work should explore the integration of multimodal information (e.g., images, user behavior patterns) and investigate the robustness of these approaches against adversarial attacks, as sophisticated fraudsters may attempt to exploit LLM-based detection systems. Additionally, model-specific prompt engineering strategies warrant further investigation, as our results suggest that different LLMs may benefit from tailored prompt structures, instruction formats, and contextual information presentation methods to maximize their respective strengths in fraud detection tasks.
 
